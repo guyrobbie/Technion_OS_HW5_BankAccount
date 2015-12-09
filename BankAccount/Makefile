@@ -13,7 +13,7 @@
 #clean:
 #	$(RM) $(TARGET) *.o *~ "#"* core.*
 CC=gcc
-CFLAGS=-g -Wall
+CFLAGS=-g -Wall -lpthread
 LDFLAGS=
 SOURCES= ./BankAccount/main.c
 OBJECTS=$(SOURCES:.c=.o)

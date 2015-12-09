@@ -100,5 +100,6 @@
   </VirtualDirectory>
   <VirtualDirectory Name="Make">
     <File Name="../Makefile"/>
+    <File Name="Makefile"/>
   </VirtualDirectory>
 </CodeLite_Project>

@@ -1,6 +1,6 @@
 # Makefile for the smash program
-CC = gcc
-CFLAGS = -g -Wall
+CFLAGS = -g -Wall -pthread
+CC = gcc $(CFLAGS)
 CCLINK = $(CC)
 OBJS = main.o
 RM = rm -f

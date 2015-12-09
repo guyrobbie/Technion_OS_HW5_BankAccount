@@ -6,6 +6,7 @@
 #include <string.h>
 #include <signal.h>
 #include "debug.h"
+#include <pthread.h>
 
 
 #define NUM_OF_ATMS 40
@@ -16,8 +17,14 @@ char** ATMs_commands[NUM_OF_ATMS];
 int countLines(FILE* fp);
 int getCommands(char*** commandsArray, char** fileList, int fileListLen);
 
+void *ATM(void* input_params);
+
 int main(int argc, char **argv)
 {
+    int ret;
+    pthread_t* threads;
+    
+    
     if(argc > 0)
     {
         g_Num_Of_ATMs = atoi(argv[1]);
@@ -27,28 +34,46 @@ int main(int argc, char **argv)
             ERROR("not enought input arguments!");
             exit(1);
         }
-        else
-        {
-            if(getCommands(ATMs_commands, &argv[2], g_Num_Of_ATMs) == -1)
-            {
-                ERROR("failed to run: getCommands");
-                exit(2);
-            }
-            else
-            {
-                for(int i = 0; i < g_Num_Of_ATMs; i++)
-                {
-                    for(int j = 0; ATMs_commands[i][j] != NULL; j++)
-                    {
-                        TRACE("ATMs_commands[%d][%d]: %s",i ,j ,ATMs_commands[i][j]);
-                    }
-                }
-            }
-            
-        }
+//        else
+//        {
+//            if(getCommands(ATMs_commands, &argv[2], g_Num_Of_ATMs) == -1)
+//            {
+//                ERROR("failed to run: getCommands");
+//                exit(2);
+//            }
+//            else
+//            {
+//                for(int i = 0; i < g_Num_Of_ATMs; i++)
+//                {
+//                    for(int j = 0; ATMs_commands[i][j] != NULL; j++)
+//                    {
+//                        TRACE("ATMs_commands[%d][%d]: %s",i ,j ,ATMs_commands[i][j]);
+//                    }
+//                }
+//            }
+//            
+//        }
     }
-
-
+    
+    threads = (pthread_t*)malloc(sizeof(pthread_t)*g_Num_Of_ATMs);
+    for(int i = 0; i < g_Num_Of_ATMs; i++)
+    {
+        TRACE("pthread_create(&threads[%d], NULL, %d, argv[2+%d])",i,ATM,i);
+        ret = pthread_create(&threads[i], NULL, ATM, argv[2+i]);
+        if(ret)
+        {
+            ERROR("pthread_create failed to create threads[%d]!!!", i);
+            exit(EXIT_FAILURE);
+        }
+        
+        
+    }
+    
+    for(int i = 0; i < g_Num_Of_ATMs; i++)
+    {
+        pthread_join(threads[i], NULL);
+        ERROR("thread[%d] finished", i);
+    }
 //       fp = fopen("/etc/motd", "r");
 //       if (fp == NULL)
 //           exit(EXIT_FAILURE);
@@ -113,6 +138,7 @@ int getCommands(char*** commandsArray, char** fileList, int fileListLen)
         return -1;
     }
     
+    //  extract commands
     for(int i = 0; i < fileListLen; i++)
     {
             TRACE("enter the for loop with i: %d", i);
@@ -143,6 +169,53 @@ int getCommands(char*** commandsArray, char** fileList, int fileListLen)
         }
     }
     return 0;
+}
+
+void *ATM(void* input_params)
+{
+    FILE* pFile = NULL;
+    char* filename = (char*)input_params;
+    char** commands;
+    size_t len = 0;
+    ssize_t read;
+    int numOfLines = 0;
+    char* line = NULL;
+    
+    TRACE("Try to open the file");
+    pFile = fopen(filename, "r");
+    
+    if(pFile == NULL)
+    {
+        ERROR("file %s doesn't exist!", filename);
+        return -1;
+    }
+    
+    numOfLines = countLines(pFile); //counting the lines in the file to allocate the correct space in the commands array
+        TRACE("numOfLines: %d", numOfLines);
+    commands = (char**)malloc(sizeof(char*) * numOfLines );
+        TRACE("allocated %lu bytes (to holds %d line pointers), in commandsArray[%d]", sizeof(char*) * numOfLines , numOfLines);
+    rewind(pFile); //setting the file pointer to points to the begining of the file.
+    
+    for(int j = 0; (read = getline(&line, &len, pFile)) != -1; j++)
+    {
+            TRACE("Retrieved line of length %zu :", read);
+            TRACE("%s", line);
+        commands[j] = (char*)malloc(sizeof(char) * read + 1);
+            TRACE("allocated %lu bytes, in commands[%d]", sizeof(char) * read + 1 , j);
+        strcpy(commands[j], line);
+            TRACE("commands[%d]: %s",j ,commands[j]);
+        free(line);
+        line = NULL;
+    }
+    fclose(pFile);
+    
+    int j = 5;
+    while(j)
+    {
+        sleep(1);
+        --j;
+    }
+    exit(1);
 }
 
 
