@@ -7,14 +7,23 @@
 #define DBG TRACE_LVL
 
 #if (DBG >= TRACE_LVL)
-    #define TRACE(...) printf("\r\nTrace: "); printf (__VA_ARGS__);
+    #define TRACE(...)      do{\
+                                printf("Trace: "); \
+                                printf (__VA_ARGS__); \
+                                printf("\r\n"); \
+                                }while(0);
+                                
     //#define COMMON_Print(...) printf (__VA_ARGS__)
 #else
     #define TRACE(...)
 #endif
 
 #if (DBG >= ERROR_LVL)
-    #define ERROR(...) printf("\r\nError: "); printf (__VA_ARGS__);
+    #define ERROR(...)      do{ \
+                            printf("\r\nError: "); \
+                            printf (__VA_ARGS__); \
+                            printf("\r\n"); \
+                            }while(0);
     //#define COMMON_Print(...) printf (__VA_ARGS__)
 #else
     #define ERROR(...)

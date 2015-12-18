@@ -5,8 +5,8 @@
   <TabInfoArray Name="TabInfoArray">
     <TabInfo>
       <wxString Value="/home/guyr/Guy/GitHub/Technion/Bank/BankAccount/BankAccount/main.c" Name="FileName"/>
-      <int Value="0" Name="FirstVisibleLine"/>
-      <int Value="16" Name="CurrentLine"/>
+      <int Value="131" Name="FirstVisibleLine"/>
+      <int Value="153" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
@@ -23,16 +23,7 @@
       <int Value="3" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds">
-        <IntVectorItem Value="16"/>
         <IntVectorItem Value="83"/>
-        <IntVectorItem Value="133"/>
-        <IntVectorItem Value="157"/>
-        <IntVectorItem Value="181"/>
-        <IntVectorItem Value="195"/>
-        <IntVectorItem Value="213"/>
-        <IntVectorItem Value="231"/>
-        <IntVectorItem Value="247"/>
-        <IntVectorItem Value="281"/>
       </IntVector>
     </TabInfo>
     <TabInfo>

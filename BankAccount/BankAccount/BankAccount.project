@@ -92,14 +92,13 @@
   </Settings>
   <VirtualDirectory Name="src">
     <File Name="main.c"/>
-    <VirtualDirectory Name="List">
-      <File Name="List/list.c"/>
-      <File Name="List/list.h"/>
-    </VirtualDirectory>
+    <VirtualDirectory Name="List"/>
     <File Name="debug.h"/>
+    <File Name="Account.h"/>
+    <File Name="list.c"/>
+    <File Name="list.h"/>
   </VirtualDirectory>
   <VirtualDirectory Name="Make">
-    <File Name="../Makefile"/>
     <File Name="Makefile"/>
   </VirtualDirectory>
 </CodeLite_Project>

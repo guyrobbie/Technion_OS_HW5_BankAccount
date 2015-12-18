@@ -17,7 +17,6 @@ int InsertElem(LIST_ELEMENT** pList, unsigned int number,
 unsigned int balance, unsigned int password)
 { 
 	LIST_ELEMENT *List;
-	LIST_ELEMENT *temp;
 	List = *pList;
  
     if (List == NULL)
@@ -27,16 +26,16 @@ unsigned int balance, unsigned int password)
 			exit (-1); 
 	    
         
-        List->Account.number = number;
-        List->Account.password = password;
-        List->Account.balance = balance;
+        List->account.number = number;
+        List->account.password = password;
+        List->account.balance = balance;
         List->pNext = NULL;
 		*pList = List;
 		return 0;
     	} 
 	else 
 	{    
-		if (List->Account.number == number) 
+		if (List->account.number == number) 
 			return ERROR_ACCOUNT_NUMBER_EXISTS;
 		else
 		{
@@ -44,6 +43,7 @@ unsigned int balance, unsigned int password)
 		}
 	}
 }
+#if 0
 //**************************************************************************************
 // function name: ModifyElem
 // Description: modify elemet
@@ -273,3 +273,4 @@ pNode Pop(pNode stack)
 	}
 }
 
+#endif
